@@ -47,9 +47,12 @@ int main(void) {
 	mergeArrays(arr1, n1, arr2, n2, arrF);  //Fusionar los dos arreglos en un tercer arreglo
 
 	sortArray(arrF, n3);  //Ordenar los elementos del tercer arreglo, recuerde que pueden existir profesores repetidos
-
+	printf("\n\nLa lista ordenada de profesores, sin repetir ninguno es:\n");
+	printArray(arrF, n3);   //Imprimir el resultado final
+	
 	apuntador = arrF;
-	for( int i=0; i<n3-1; i++ ){
+	int i=0;
+	for(i; i<n3-1; i++ ){
 		valor = comparaCadenas( (apuntador + i)->nombre , (apuntador + i+1)->nombre );
 		printf("Valor Comparacion: %d ", valor);
 		if(valor == 0) //Si la comparacion son iguales
@@ -59,7 +62,7 @@ int main(void) {
 		}
 	}
 
-	printArray(arrF, n3);   //Imprimir el resultado final
+	//printArray(arrF, n3);   //Imprimir el resultado final
 
 
 	return EXIT_SUCCESS;
@@ -78,12 +81,13 @@ void readArray(Profesor arr[20], int N){
 
 	printf("Introduce los profesores y su calificacion:");
 
-	for (int i = 0; i < N; i++){
+	int i = 0;
+	for (i; i < N; i++){
+		setbuf(stdin, 0);
 		gets(auxNombre);
-		scanf("%f", &auxCalif);
-
 		strcpy((apuntador + i)->nombre , "");
 		strcpy((apuntador + i)->nombre , auxNombre);
+		scanf("%f", &auxCalif);
 		(apuntador + i)->calificacion = auxCalif;
 	}
 }
@@ -112,22 +116,22 @@ void sortArray(Profesor arrF[], int n3){	//Aqui deben llegar el arreglo
 	Profesor *apunta = arrF;			//combinado de las 2 listas y su tamaño
 	Profesor structSwap;	//CREO Q PODRIA SER SOLO 1 VARIABLE
 	Profesor *auxSwap = &structSwap;
-	int pasada;
 	int i;
+	int j;
 
-	for(pasada = 0; pasada < n3-1; pasada++){
-		for(i = 0; i < n3-1-pasada; i++){
-			if(	(apunta + i)->calificacion > (apunta + i + 1)->calificacion	)
+	for(i = 0; i < n3; i++){
+		for(j = 0; j < n3-1; j++){
+			if(	(apunta + j)->calificacion > (apunta + j + 1)->calificacion	)
 				{
-					strcpy(	(auxSwap + i)->nombre, "");
-					strcpy(	(auxSwap + i)->nombre, (apunta + i)->nombre );	//Pasar al AUX
-					(auxSwap + i)->calificacion = (apunta + i)->calificacion;	//Pasar al AUX
+					strcpy(	(auxSwap + j)->nombre, "");
+					strcpy(	(auxSwap + j)->nombre, (apunta + j)->nombre );	//Pasar al AUX
+					(auxSwap + j)->calificacion = (apunta + j)->calificacion;	//Pasar al AUX
 
-					strcpy(	(apunta + i)->nombre, (apunta + i + 1)->nombre );// Inicia el SWAP
-					(apunta + i)->calificacion = (apunta + i + 1)->calificacion;//Inicia el SWAP
+					strcpy(	(apunta + j)->nombre, (apunta + j + 1)->nombre );// Inicia el SWAP
+					(apunta + j)->calificacion = (apunta + j + 1)->calificacion;//Inicia el SWAP
 
-					strcpy(	(apunta + i + 1)->nombre, (auxSwap + i)->nombre	);//FIN de SWAP
-					(apunta + i + 1)->calificacion = (auxSwap + i)->calificacion;//FIN de SWAP
+					strcpy(	(apunta + j + 1)->nombre, (auxSwap + j)->nombre	);//FIN de SWAP
+					(apunta + j + 1)->calificacion = (auxSwap + j)->calificacion;//FIN de SWAP
 				}
 		}
 	}
@@ -175,17 +179,15 @@ int comparaCadenas (char cadena1[], char cadena2[]){	//Deben ser de MAX. 15 cara
 void printArray(Profesor arrF[], int n3){
 	Profesor *dezplazaArr = arrF;
 
-	printf("\n\nLa lista ordenada de profesores, sin repetir ninguno es:\n");
-
-	for (int i = 0; i<n3; i++){
+	int i = 0;
+	for (i; i<n3; i++){
 		if(	(dezplazaArr + i)->calificacion != -5)//Si hubo borrado lógico no lo imprime
 		{
 			printf("%s ->\t\t", (dezplazaArr + i)->nombre );
 			printf("%f\n", (dezplazaArr + i)->calificacion);
 		}
+		
 	}
 
 }
-
-
 
